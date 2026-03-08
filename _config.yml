@@ -32,7 +32,8 @@ github_username:  christianpaez
 #theme: minima
 theme: minimal-mistakes-jekyll
 minimal_mistakes_skin: "dark"
-
+atom_feed:
+  hide: true
 
 #plugins:
 #- jekyll-feed
