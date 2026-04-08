@@ -7,6 +7,8 @@ import (
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 func main() {
@@ -29,6 +31,8 @@ func main() {
 		fmt.Printf("Visiting blog page: %s\n", url)
 		response, err := http.Get(url)
 
+		// need to set cookies
+
 		if err != nil {
 			panic(err)
 		}
@@ -36,6 +40,19 @@ func main() {
 		defer response.Body.Close()
 
 		fmt.Printf("%v\n", response.Status)
+
+		document, err := goquery.NewDocumentFromReader(response.Body)
+
+		fmt.Printf("%v", string(document.Text()))
+
+		if err != nil {
+			log.Fatal(err)
+
+		}
+		document.Find(".fs-3xl m:fs-4xl l:fs-5xl fw-bold s:fw-heavy lh-tight mb-2 medium").Each(func(i int, selection *goquery.Selection) {
+
+			fmt.Printf("Found Selection: \n%v\n", selection.Text())
+		})
 
 	}
 
