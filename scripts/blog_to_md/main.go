@@ -26,12 +26,41 @@ func main() {
 	validHrefRegex := regexp.MustCompile("href=\"([^\"]+)\"")
 	matches := validHrefRegex.FindAllStringSubmatch(string(contents), -1)
 	for _, value := range matches {
-		s := []string{"https://dev.to", value[1]}
+		s := []string{"https://dev.to", value[1], "/edit"}
 		url := fmt.Sprintf(strings.Join(s, ""))
 		fmt.Printf("Visiting blog page: %s\n", url)
-		response, err := http.Get(url)
 
-		// need to set cookies
+		client := &http.Client{}
+
+		currentUserCookie := &http.Cookie{
+			Name:   "current_user",
+			Value:  "",
+			Quoted: false,
+		}
+
+		rememberMeCookie := &http.Cookie{
+			Name:   "remember_me_user_token",
+			Value:  "",
+			Quoted: false,
+		}
+
+		request, err := http.NewRequest("GET", url, nil)
+
+		if err != nil {
+
+			log.Fatal("Error creating request: ", err)
+		}
+
+		request.AddCookie(currentUserCookie)
+		request.AddCookie(rememberMeCookie)
+		request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+
+		request.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+		request.Header.Set("Accept-Language", "en-US,en;q=0.5")
+		request.Header.Set("Accept-Encoding", "gzip, deflate, br")
+		request.Header.Set("Connection", "keep-alive")
+		request.Header.Set("Upgrade-Insecure-Requests", "1")
+		response, err := client.Do(request)
 
 		if err != nil {
 			panic(err)
@@ -43,13 +72,15 @@ func main() {
 
 		document, err := goquery.NewDocumentFromReader(response.Body)
 
-		fmt.Printf("%v", string(document.Text()))
+		//		fmt.Printf("%v", string(document.Text()))
+
+		fmt.Printf("%v", strings.Contains(document.Text(), "Create account"))
 
 		if err != nil {
 			log.Fatal(err)
 
 		}
-		document.Find(".fs-3xl m:fs-4xl l:fs-5xl fw-bold s:fw-heavy lh-tight mb-2 medium").Each(func(i int, selection *goquery.Selection) {
+		document.Find("crayons-textfield crayons-textfield--ghost crayons-article-form__body__field ff-monospace fs-l h-100").Each(func(i int, selection *goquery.Selection) {
 
 			fmt.Printf("Found Selection: \n%v\n", selection.Text())
 		})
