@@ -39,7 +39,7 @@ func main() {
 		}
 
 		rememberMeCookie := &http.Cookie{
-			Name:   "remember_me_user_token",
+			Name:   "remember_user_token",
 			Value:  "",
 			Quoted: false,
 		}
@@ -57,7 +57,6 @@ func main() {
 
 		request.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
 		request.Header.Set("Accept-Language", "en-US,en;q=0.5")
-		request.Header.Set("Accept-Encoding", "gzip, deflate, br")
 		request.Header.Set("Connection", "keep-alive")
 		request.Header.Set("Upgrade-Insecure-Requests", "1")
 		response, err := client.Do(request)
@@ -72,17 +71,17 @@ func main() {
 
 		document, err := goquery.NewDocumentFromReader(response.Body)
 
-		//		fmt.Printf("%v", string(document.Text()))
-
-		fmt.Printf("%v", strings.Contains(document.Text(), "Create account"))
-
 		if err != nil {
 			log.Fatal(err)
 
 		}
-		document.Find("crayons-textfield crayons-textfield--ghost crayons-article-form__body__field ff-monospace fs-l h-100").Each(func(i int, selection *goquery.Selection) {
+		document.Find("#main-content").Each(func(i int, selection *goquery.Selection) {
 
-			fmt.Printf("Found Selection: \n%v\n", selection.Text())
+			attribute, exists := selection.Attr("data-article")
+
+			if exists {
+				fmt.Printf("Attribute: %s \n", attribute)
+			}
 		})
 
 	}
