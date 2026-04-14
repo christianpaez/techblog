@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,6 +17,24 @@ func main() {
 	fmt.Println("Start program")
 	fmt.Println("Reading file...")
 
+	credentials, err := os.ReadFile((".credentials.txt"))
+
+	scanner := bufio.NewScanner(strings.NewReader(string(credentials)))
+
+	var currentUser, rememberUserToken string
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.HasPrefix(line, "current_user:") {
+			currentUser = strings.TrimPrefix(line, "current_user:")
+		}
+
+		if strings.HasPrefix(line, "remember_user_token:") {
+			rememberUserToken = strings.TrimPrefix(line, "remember_user_token:")
+		}
+	}
+	if currentUser == "" || rememberUserToken == "" {
+		log.Fatal("Credentials missing. Check .credentials.txt format.")
+	}
 	contents, err := os.ReadFile("index_example.html")
 
 	if err != nil {
