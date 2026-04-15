@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -21,18 +22,18 @@ func main() {
 
 	scanner := bufio.NewScanner(strings.NewReader(string(credentials)))
 
-	var currentUser, rememberUserToken string
+	var currentUserToken, rememberUserToken string
 	for scanner.Scan() {
 		line := scanner.Text()
 		if strings.HasPrefix(line, "current_user:") {
-			currentUser = strings.TrimPrefix(line, "current_user:")
+			currentUserToken = strings.TrimPrefix(line, "current_user:")
 		}
 
 		if strings.HasPrefix(line, "remember_user_token:") {
 			rememberUserToken = strings.TrimPrefix(line, "remember_user_token:")
 		}
 	}
-	if currentUser == "" || rememberUserToken == "" {
+	if currentUserToken == "" || rememberUserToken == "" {
 		log.Fatal("Credentials missing. Check .credentials.txt format.")
 	}
 	contents, err := os.ReadFile("index_example.html")
@@ -53,13 +54,13 @@ func main() {
 
 		currentUserCookie := &http.Cookie{
 			Name:   "current_user",
-			Value:  "",
+			Value:  currentUserToken,
 			Quoted: false,
 		}
 
 		rememberMeCookie := &http.Cookie{
 			Name:   "remember_user_token",
-			Value:  "",
+			Value:  rememberUserToken,
 			Quoted: false,
 		}
 
@@ -99,7 +100,23 @@ func main() {
 			attribute, exists := selection.Attr("data-article")
 
 			if exists {
-				fmt.Printf("Attribute: %s \n", attribute)
+				fmt.Printf("Writing to file...: %s \n", attribute)
+				path := filepath.Join("tmp/", "check")
+				f, err := os.Create(path)
+				if err != nil {
+					log.Fatal("Error creating file: ", err)
+
+				}
+				defer f.Close()
+				w := bufio.NewWriter(f)
+				fileBytes, err := w.WriteString(attribute)
+				if err != nil {
+
+					log.Fatal("Error writing found attribute to file: ", err)
+				}
+
+				fmt.Printf("Wrote %d bytes", fileBytes)
+
 			}
 		})
 
