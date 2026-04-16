@@ -8,7 +8,9 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -45,6 +47,7 @@ func main() {
 
 	validHrefRegex := regexp.MustCompile("href=\"([^\"]+)\"")
 	matches := validHrefRegex.FindAllStringSubmatch(string(contents), -1)
+	fileNumber := 1
 	for _, value := range matches {
 		s := []string{"https://dev.to", value[1], "/edit"}
 		url := fmt.Sprintf(strings.Join(s, ""))
@@ -95,13 +98,19 @@ func main() {
 			log.Fatal(err)
 
 		}
+		if _, err := os.Stat("tmp"); os.IsNotExist(err) {
+			if err := os.Mkdir("tmp", 0755); err != nil {
+				log.Fatal("Error creating tmp directory:", err)
+			}
+		}
+
 		document.Find("#main-content").Each(func(i int, selection *goquery.Selection) {
 
 			attribute, exists := selection.Attr("data-article")
 
 			if exists {
-				fmt.Printf("Writing to file...: %s \n", attribute)
-				path := filepath.Join("tmp/", "check")
+				fileName := fmt.Sprintf("0%s-%s", strconv.Itoa(fileNumber), time.Now().Format("2006-01-02_150405.000000"))
+				path := filepath.Join("tmp/", fileName)
 				f, err := os.Create(path)
 				if err != nil {
 					log.Fatal("Error creating file: ", err)
@@ -111,12 +120,11 @@ func main() {
 				w := bufio.NewWriter(f)
 				fileBytes, err := w.WriteString(attribute)
 				if err != nil {
-
 					log.Fatal("Error writing found attribute to file: ", err)
 				}
+				fmt.Printf("Wrote %d bytes\n", fileBytes)
 
-				fmt.Printf("Wrote %d bytes", fileBytes)
-
+				fileNumber += 1
 			}
 		})
 
