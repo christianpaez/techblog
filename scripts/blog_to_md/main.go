@@ -3,21 +3,33 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/PuerkitoBio/goquery"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
-
-	"github.com/PuerkitoBio/goquery"
 )
 
 func main() {
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGTERM, syscall.SIGINT)
+	go func() {
+		<-sigChan
+		fmt.Println("/n Interrupted, files deleted...")
+		//os.RemoveAll("folderNamer")
+		os.Exit(1)
+	}()
 
 	fmt.Println("Start program")
+
+	inputScanner := bufio.NewScanner(os.Stdin)
+
 	fmt.Println("Reading file...")
 
 	credentials, err := os.ReadFile((".credentials.txt"))
@@ -48,6 +60,11 @@ func main() {
 	validHrefRegex := regexp.MustCompile("href=\"([^\"]+)\"")
 	matches := validHrefRegex.FindAllStringSubmatch(string(contents), -1)
 	fileNumber := 1
+	folderName := fmt.Sprintf("tmp/%s", time.Now().Format("2006-01-02_150405.000000"))
+
+	if err := os.Mkdir(folderName, 0755); err != nil {
+		log.Fatal("Error creating tmp nested directory:", err)
+	}
 	for _, value := range matches {
 		s := []string{"https://dev.to", value[1], "/edit"}
 		url := fmt.Sprintf(strings.Join(s, ""))
@@ -109,8 +126,8 @@ func main() {
 			attribute, exists := selection.Attr("data-article")
 
 			if exists {
-				fileName := fmt.Sprintf("0%s-%s", strconv.Itoa(fileNumber), time.Now().Format("2006-01-02_150405.000000"))
-				path := filepath.Join("tmp/", fileName)
+				fileName := fmt.Sprintf("0%s-%s.json", strconv.Itoa(fileNumber), time.Now().Format("2006-01-02_150405.000000"))
+				path := filepath.Join(folderName, fileName)
 				f, err := os.Create(path)
 				if err != nil {
 					log.Fatal("Error creating file: ", err)
@@ -124,10 +141,17 @@ func main() {
 				}
 				fmt.Printf("Wrote %d bytes\n", fileBytes)
 
+				w.Flush()
+
 				fileNumber += 1
 			}
 		})
 
 	}
 
+	fmt.Println("Files Created!")
+	fmt.Println("Press any key to format the files to JSON...")
+	if inputScanner.Scan() {
+		fmt.Println("JSON formatting started")
+	}
 }
