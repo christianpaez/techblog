@@ -1,6 +1,7 @@
 package main
 
 import (
+	"blog-to-md/jsontomd"
 	"bufio"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
@@ -22,6 +23,7 @@ func main() {
 	go func() {
 		<-sigChan
 		fmt.Println("/n Interrupted, files deleted...")
+		// TODO
 		//os.RemoveAll("folderNamer")
 		os.Exit(1)
 	}()
@@ -152,6 +154,6 @@ func main() {
 	fmt.Println("Files Created!")
 	fmt.Println("Press any key to format the files to JSON...")
 	if inputScanner.Scan() {
-		fmt.Println("JSON formatting started")
+		jsontomd.Start()
 	}
 }
