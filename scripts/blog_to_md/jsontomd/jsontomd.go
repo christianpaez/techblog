@@ -1,6 +1,7 @@
 package jsontomd
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -12,8 +13,10 @@ type JSONToMdConverter struct {
 }
 
 type Blog struct {
-	Title   string `json:"title"`
-	Content string `json:content`
+	Title     string `json:"title"`
+	Content   string `json:"body_markdown"`
+	UpdatedAt string `json:"updated_at"`
+	MainImage string `json:"main_image"`
 }
 
 func NewJSONToMdConverter(jsonFolderName string) *JSONToMdConverter {
@@ -29,18 +32,17 @@ func (c *JSONToMdConverter) Start() {
 	fmt.Println(filePaths)
 	for i := 0; i < len(filePaths); i++ {
 
-		jsonContent, err := fileToJSON(filePaths[i])
+		jsonFilePath := fmt.Sprintf("%s/%s", c.jsonFolderName, filePaths[i])
+		jsonContent, err := fileToJSON(jsonFilePath)
 		if err != nil {
 			log.Fatal("Error converting to JSON:", err)
 		}
-		fmt.Println(jsonContent)
-
-		_, err = writeMdFile(jsonContent)
+		newFilePath, err := writeMdFile(c.jsonFolderName, jsonContent)
 
 		if err != nil {
 			log.Fatal("Error writing .md: ", err)
 		}
-		fmt.Println("File written: ", filePaths[i])
+		fmt.Println("New file written: ", *newFilePath)
 	}
 
 }
@@ -70,25 +72,36 @@ func findFilePaths(folderName string) []string {
 }
 
 func fileToJSON(path string) (Blog, error) {
-	// todo
+	var blog Blog
+	jsonBytes, err := os.ReadFile(path)
 
-	fmt.Println(path)
+	if err != nil {
 
-	return Blog{
-		Title:   "Some title",
-		Content: "Some content",
-	}, nil
+		log.Fatal("Error reading .json contents:", err)
+	}
+
+	if err = json.Unmarshal(jsonBytes, &blog); err != nil {
+		log.Fatal("Error parsing json contents: ", err)
+	}
+
+	return blog, nil
 
 }
 
-func writeMdFile(jsonContent Blog) (bool, error) {
-	// todo
+func writeMdFile(folderPath string, jsonContent Blog) (*string, error) {
 	const testTemplate = `Im am template, some value: {{.Title}} and {{.Content}}`
+	newFilePath := fmt.Sprintf("%s/mdFiles/%s.md", folderPath, jsonContent.UpdatedAt)
+	file, err := os.Create(newFilePath)
+	if err != nil {
+		log.Fatal("Error creating .md:", err)
+	}
+	defer file.Close()
+
 	t := template.Must(template.New("testTemplate").Parse(testTemplate))
-	err := t.Execute(os.Stdout, jsonContent)
+	err = t.Execute(file, jsonContent)
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
-	return true, nil
+	return &newFilePath, nil
 }
