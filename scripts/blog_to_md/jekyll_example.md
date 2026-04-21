@@ -1,7 +1,7 @@
 ---
 layout: post
-title: {{.Title}}
-date: {{.Date}}
+title: "{{.Title}}"
+date: {{.UpdatedAt}}
 categories: blog
 ---
 
