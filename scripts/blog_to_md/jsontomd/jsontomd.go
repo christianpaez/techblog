@@ -3,9 +3,9 @@ package jsontomd
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"log"
 	"os"
+	"text/template"
 	"time"
 )
 
@@ -111,7 +111,7 @@ func writeMdFile(folderPath string, jsonContent Blog) (*string, error) {
 	}
 	defer file.Close()
 
-	t := template.Must(template.New("testTemplate").Parse(string(fileBytes)))
+	t := template.Must(template.New("template").Parse(string(fileBytes)))
 	err = t.Execute(file, jsonContent)
 
 	if err != nil {
