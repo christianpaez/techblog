@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"os"
+	"time"
 )
 
 type JSONToMdConverter struct {
@@ -84,12 +85,25 @@ func fileToJSON(path string) (Blog, error) {
 		log.Fatal("Error parsing json contents: ", err)
 	}
 
+	parsedTime, err := time.Parse(time.RFC3339, blog.UpdatedAt)
+
+	if err != nil {
+		log.Fatal("Error parsing time string: ", err)
+	}
+
+	blog.UpdatedAt = parsedTime.Format("2006-01-02 15:04:05 -0500")
+
 	return blog, nil
 
 }
 
 func writeMdFile(folderPath string, jsonContent Blog) (*string, error) {
-	const testTemplate = `Im am template, some value: {{.Title}} and {{.Content}}`
+
+	fileBytes, err := os.ReadFile("jekyll_example.md")
+	if err != nil {
+		log.Fatal("Error reading .md example: ", err)
+	}
+
 	newFilePath := fmt.Sprintf("%s/mdFiles/%s.md", folderPath, jsonContent.UpdatedAt)
 	file, err := os.Create(newFilePath)
 	if err != nil {
@@ -97,7 +111,7 @@ func writeMdFile(folderPath string, jsonContent Blog) (*string, error) {
 	}
 	defer file.Close()
 
-	t := template.Must(template.New("testTemplate").Parse(testTemplate))
+	t := template.Must(template.New("testTemplate").Parse(string(fileBytes)))
 	err = t.Execute(file, jsonContent)
 
 	if err != nil {
