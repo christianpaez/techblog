@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"text/template"
 	"time"
 )
@@ -14,10 +15,11 @@ type JSONToMdConverter struct {
 }
 
 type Blog struct {
-	Title     string `json:"title"`
-	Content   string `json:"body_markdown"`
-	UpdatedAt string `json:"updated_at"`
-	MainImage string `json:"main_image"`
+	Title      string `json:"title"`
+	Content    string `json:"body_markdown"`
+	UpdatedAt  string `json:"updated_at"`
+	MainImage  string `json:"main_image"`
+	Categories string `json:"cached_tag_list"`
 }
 
 func NewJSONToMdConverter(jsonFolderName string) *JSONToMdConverter {
@@ -103,8 +105,9 @@ func writeMdFile(folderPath string, jsonContent Blog) (*string, error) {
 	if err != nil {
 		log.Fatal("Error reading .md example: ", err)
 	}
-
-	newFilePath := fmt.Sprintf("%s/mdFiles/%s.md", folderPath, jsonContent.UpdatedAt)
+	date := strings.Split(jsonContent.UpdatedAt, " ")[0]
+	filename := fmt.Sprintf("%s-%s", date, strings.ReplaceAll(strings.ToLower(jsonContent.Title), " ", "-"))
+	newFilePath := fmt.Sprintf("%s/mdFiles/%s.md", folderPath, filename)
 	file, err := os.Create(newFilePath)
 	if err != nil {
 		log.Fatal("Error creating .md:", err)

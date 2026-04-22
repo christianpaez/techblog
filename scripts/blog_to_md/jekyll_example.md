@@ -1,8 +1,8 @@
 ---
-layout: post
+layout: single
 title: "{{.Title}}"
 date: {{.UpdatedAt}}
-categories: blog
+categories: {{.Categories}}
 ---
 
 {{.Content}}
