@@ -1,6 +1,8 @@
 package jsontomd
 
 import (
+	"blog-to-md/imagedownloader"
+	"blog-to-md/models"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -12,14 +14,6 @@ import (
 
 type JSONToMdConverter struct {
 	jsonFolderName string
-}
-
-type Blog struct {
-	Title      string `json:"title"`
-	Content    string `json:"body_markdown"`
-	UpdatedAt  string `json:"updated_at"`
-	MainImage  string `json:"main_image"`
-	Categories string `json:"cached_tag_list"`
 }
 
 func NewJSONToMdConverter(jsonFolderName string) *JSONToMdConverter {
@@ -37,6 +31,7 @@ func (c *JSONToMdConverter) Start() {
 
 		jsonFilePath := fmt.Sprintf("%s/%s", c.jsonFolderName, filePaths[i])
 		jsonContent, err := fileToJSON(jsonFilePath)
+		imagedownloader.DownloadImages(jsonContent)
 		if err != nil {
 			log.Fatal("Error converting to JSON:", err)
 		}
@@ -74,8 +69,8 @@ func findFilePaths(folderName string) []string {
 	return paths
 }
 
-func fileToJSON(path string) (Blog, error) {
-	var blog Blog
+func fileToJSON(path string) (models.Blog, error) {
+	var blog models.Blog
 	jsonBytes, err := os.ReadFile(path)
 
 	if err != nil {
@@ -99,8 +94,7 @@ func fileToJSON(path string) (Blog, error) {
 
 }
 
-func writeMdFile(folderPath string, jsonContent Blog) (*string, error) {
-
+func writeMdFile(folderPath string, jsonContent models.Blog) (*string, error) {
 	fileBytes, err := os.ReadFile("jekyll_example.md")
 	if err != nil {
 		log.Fatal("Error reading .md example: ", err)
