@@ -1,10 +1,10 @@
 package main
 
 import (
-	"blog-to-md/jsontomd"
+	"blog-to-md/inputprompt"
+	//	"blog-to-md/jsontomd"
 	"bufio"
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
 	"log"
 	"net/http"
 	"os"
@@ -15,26 +15,31 @@ import (
 	"strings"
 	"syscall"
 	"time"
+
+	"github.com/PuerkitoBio/goquery"
 )
+
+func handleErr(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGTERM, syscall.SIGINT)
 	go func() {
 		<-sigChan
-		fmt.Println("/n Interrupted, files deleted...")
-		// TODO
-		//os.RemoveAll("folderNamer")
+		fmt.Println("\n Interrupted, closing...")
 		os.Exit(1)
 	}()
 
-	fmt.Println("Start program")
+	inputprompt.Wait("Program started, press enter to continue...")
+	credentials, errTest := inputprompt.Command("Press enter to check credentials file...", func() ([]byte, error) {
+		return os.ReadFile(".credentials.txt")
+	})
 
-	inputScanner := bufio.NewScanner(os.Stdin)
-
-	fmt.Println("Reading file...")
-
-	credentials, err := os.ReadFile((".credentials.txt"))
+	handleErr(errTest)
 
 	scanner := bufio.NewScanner(strings.NewReader(string(credentials)))
 
@@ -151,9 +156,6 @@ func main() {
 	}
 
 	fmt.Println("Files Created!")
-	fmt.Println("Press any key to format the files to JSON...")
-	if inputScanner.Scan() {
-		jsontomd.NewJSONToMdConverter(folderName).Start()
-	}
 
+	// inputprompt.Command("Press enter to format files to JSON...", jsontomd.NewJSONToMdConverter(folderName).Start())
 }
