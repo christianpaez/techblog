@@ -2,7 +2,7 @@ package main
 
 import (
 	"blog-to-md/inputprompt"
-	//	"blog-to-md/jsontomd"
+	"blog-to-md/jsontomd"
 	"bufio"
 	"fmt"
 	"log"
@@ -157,5 +157,5 @@ func main() {
 
 	fmt.Println("Files Created!")
 
-	// inputprompt.Command("Press enter to format files to JSON...", jsontomd.NewJSONToMdConverter(folderName).Start())
+	inputprompt.Command("Press enter to format files to JSON...", jsontomd.NewJSONToMdConverter(folderName).Start)
 }
