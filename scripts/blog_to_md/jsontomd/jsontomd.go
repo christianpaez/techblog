@@ -37,6 +37,7 @@ func (c *JSONToMdConverter) Start() (bool, error) {
 		if err != nil {
 			return false, err
 		}
+		// todo, continue here
 		if err := imagedownloader.DownloadImages(jsonContent); err != nil {
 			return false, err
 		}

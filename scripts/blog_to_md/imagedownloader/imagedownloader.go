@@ -8,22 +8,31 @@ import (
 // data definitions
 // list of images strings[]
 
+var imageUrls []string
+
 // markdown content string
 //
 
-func DownloadImages(jsonContent models.Blog) error {
-	var images []string
+func DownloadImages(blogMd models.Blog) (bool, error) {
 	fmt.Println("Image processing started...")
+	_, err := extractImageUrls(blogMd)
 
-	images = append(images, jsonContent.MainImage)
-	fmt.Println(images)
-	return nil
+	if err != nil {
+		return false, err
+	}
+	fmt.Println(imageUrls)
+	return true, nil
 }
 
-func extractImageUrls() {
+func extractImageUrls(blogMd models.Blog) ([]string, error) {
 	fmt.Println("Extracting images from .md: ")
-	extractImageFromMetadata()
-	extractImagesFromContent()
+	mainImageUrl, err := extractImageFromMetadata()
+	//extractImagesFromContent()
+	imageUrls = append(imageUrls, mainImageUrl)
+	if err != nil {
+		return nil, err
+	}
+	return imageUrls, nil
 }
 
 func extractImageFromMetadata() (string, error) {
