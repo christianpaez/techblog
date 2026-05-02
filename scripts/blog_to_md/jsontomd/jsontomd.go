@@ -37,8 +37,8 @@ func (c *JSONToMdConverter) Start() (bool, error) {
 		if err != nil {
 			return false, err
 		}
-		// todo, continue here
-		if err := imagedownloader.DownloadImages(jsonContent); err != nil {
+		imageDownloader := imagedownloader.NewDownloader(jsonContent)
+		if _, err := imageDownloader.DownloadImages(); err != nil {
 			return false, err
 		}
 		newFilePath, err := writeMdFile(c.jsonFolderName, jsonContent)
