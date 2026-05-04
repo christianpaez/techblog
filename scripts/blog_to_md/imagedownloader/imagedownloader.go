@@ -1,6 +1,7 @@
 package imagedownloader
 
 import (
+	"blog-to-md/config"
 	"blog-to-md/models"
 	"fmt"
 	"io"
@@ -8,6 +9,7 @@ import (
 	"os"
 	"regexp"
 	"slices"
+	"strings"
 )
 
 type Downloader struct {
@@ -60,17 +62,18 @@ func extractImagesFromContent(blogMd models.Blog) ([]string, error) {
 func (downloader Downloader) downloadImagesToFs() error {
 	for i := 0; i < len(downloader.imageUrls); i++ {
 		fmt.Printf("Downloading image: %s\n", downloader.imageUrls[i])
-		downloadImage(downloader.imageUrls[i], i)
+		downloader.downloadImage(i)
 	}
 	return nil
 }
 
 func createImageDir() error {
-	return os.Mkdir("images", 0755)
+	return os.Mkdir(config.ImageDir, 0755)
 }
 
-func downloadImage(url string, index int) error {
-	response, err := http.Get(url)
+func (downloader *Downloader) downloadImage(index int) error {
+	imagePathPrefix := blogTitleToImagePrefix(downloader.blogMd.Title)
+	response, err := http.Get(downloader.imageUrls[index])
 
 	if err != nil {
 		return err
@@ -78,7 +81,7 @@ func downloadImage(url string, index int) error {
 
 	defer response.Body.Close()
 
-	imageFilePath := fmt.Sprintf("images/0%d.png", index)
+	imageFilePath := fmt.Sprintf("%s/%s-0%d.png", config.ImageDir, imagePathPrefix, index)
 	file, err := os.Create(imageFilePath)
 
 	if err != nil {
@@ -93,4 +96,9 @@ func downloadImage(url string, index int) error {
 		return err
 	}
 	return nil
+}
+
+func blogTitleToImagePrefix(title string) string {
+	return strings.ReplaceAll(strings.ToLower(title), " ", "-")
+
 }
