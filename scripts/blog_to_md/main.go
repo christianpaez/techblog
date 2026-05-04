@@ -41,6 +41,8 @@ func main() {
 
 	handleErr(errTest)
 
+	// todo extract credentials to separate module
+
 	scanner := bufio.NewScanner(strings.NewReader(string(credentials)))
 
 	var currentUserToken, rememberUserToken string
@@ -57,6 +59,7 @@ func main() {
 	if currentUserToken == "" || rememberUserToken == "" {
 		log.Fatal("Credentials missing. Check .credentials.txt format.")
 	}
+
 	contents, err := os.ReadFile("index_example.html")
 
 	if err != nil {
