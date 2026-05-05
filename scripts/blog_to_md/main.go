@@ -1,7 +1,9 @@
 package main
 
 import (
+	"blog-to-md/config"
 	"blog-to-md/inputprompt"
+	jekyllmdpathhelper "blog-to-md/jekyllmdpath"
 	"blog-to-md/jsontomd"
 	"bufio"
 	"fmt"
@@ -26,6 +28,17 @@ func handleErr(err error) {
 }
 
 func main() {
+	config.SetMdDir("tmp/2026-05-03_194549.926728/mdFiles")
+	fmt.Println("hello")
+	fmt.Println(config.GetMdDir())
+	contentUrls := []string{"1", "2"}
+	jekyllmdpathhelper := jekyllmdpathhelper.NewJekyllMdPathHelper(contentUrls)
+	err := jekyllmdpathhelper.Normalize()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGTERM, syscall.SIGINT)
 	go func() {
@@ -65,12 +78,15 @@ func main() {
 	if err != nil {
 		log.Printf("Error reading file: %v", err)
 	}
+
+	// this got to be another module
 	fmt.Printf("File contents: %s", contents)
 
 	validHrefRegex := regexp.MustCompile("href=\"([^\"]+)\"")
 	matches := validHrefRegex.FindAllStringSubmatch(string(contents), -1)
 	fileNumber := 1
 	folderName := fmt.Sprintf("tmp/%s", time.Now().Format("2006-01-02_150405.000000"))
+	config.SetMdDir(folderName)
 
 	if _, err := os.Stat("tmp"); os.IsNotExist(err) {
 		if err := os.Mkdir("tmp", 0755); err != nil {

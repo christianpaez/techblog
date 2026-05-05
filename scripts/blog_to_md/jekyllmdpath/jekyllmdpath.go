@@ -1,5 +1,11 @@
 package jekyllmdpathhelper
 
+import (
+	"blog-to-md/config"
+	"fmt"
+	"os"
+)
+
 // data definitions
 // string need config md path where files are located
 //
@@ -19,12 +25,32 @@ func NewJekyllMdPathHelper(contentUrls []string) *JekyllMdPathHelper {
 	}
 }
 
-func (jekyllMdPathHelper *JekyllMdPathHelper) Normalize() {
+func (jekyllMdPathHelper *JekyllMdPathHelper) Normalize() error {
 	// stub this reads from md folder and calls helper
+	files, err := os.ReadDir(config.GetMdDir())
+	if err != nil {
+		return err
+	}
+	replacePaths(files)
+	return nil
 }
 
 func insertHeader() {} // stub takes image path and inserts header withmain image url
 
 func replaceImagePath() {} // stub replace path with new path
 
-func replacePaths() {} // stub helper that loops over content and calls replace on main image and content images
+func replacePaths(paths []os.DirEntry) error {
+	for _, entry := range paths {
+
+		if !entry.IsDir() {
+			filePath := fmt.Sprintf("%s/%s", config.GetMdDir(), entry.Name())
+			fileBytes, err := os.ReadFile(filePath)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println(string(fileBytes))
+		}
+	}
+	return nil
+}
