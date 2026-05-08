@@ -29,9 +29,8 @@ func handleErr(err error) {
 
 func main() {
 	config.SetMdDir("tmp/2026-05-03_194549.926728/mdFiles")
-	fmt.Println("hello")
-	fmt.Println(config.GetMdDir())
-	contentUrls := []string{"1", "2"}
+	contentUrls := []string{"https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2a2o2l3seoor3fo7p1zs.png", "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3z5niwknk97ound3677f.png"}
+
 	jekyllmdpathhelper := jekyllmdpathhelper.NewJekyllMdPathHelper(contentUrls)
 	err := jekyllmdpathhelper.Normalize()
 	if err != nil {

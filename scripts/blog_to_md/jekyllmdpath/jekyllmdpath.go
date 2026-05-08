@@ -31,7 +31,8 @@ func (jekyllMdPathHelper *JekyllMdPathHelper) Normalize() error {
 	if err != nil {
 		return err
 	}
-	replacePaths(files)
+	jekyllMdPathHelper.replacePaths(files)
+	fmt.Println(jekyllMdPathHelper.contentUrls)
 	return nil
 }
 
@@ -39,9 +40,9 @@ func insertHeader() {} // stub takes image path and inserts header withmain imag
 
 func replaceImagePath() {} // stub replace path with new path
 
-func replacePaths(paths []os.DirEntry) error {
+func (jekyllmDPathHelper *JekyllMdPathHelper) replacePaths(paths []os.DirEntry) error {
 	for _, entry := range paths {
-
+		// this is wrong, i need to assume i know file path and the content urls will be used in constructor so i can do a single loop
 		if !entry.IsDir() {
 			filePath := fmt.Sprintf("%s/%s", config.GetMdDir(), entry.Name())
 			fileBytes, err := os.ReadFile(filePath)
