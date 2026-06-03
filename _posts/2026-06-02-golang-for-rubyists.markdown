@@ -9,7 +9,6 @@ classes:
 ---
 ![Link text]({{ site.url }}{{ site.baseurl }}/assets/img/gopher.png)
 ------------
-
 Like many software developers, I also have a language that I enjoy using no matter what, and it never seems to be a puzzle to write, debug or read it. In my case, it’s Ruby. It nicely solves most of the things I need to do at work (or outside of it), which is nice, so, why did I want to try something else?
 
 # There are no golden hammers
