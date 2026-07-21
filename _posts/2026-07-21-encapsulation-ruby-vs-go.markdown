@@ -9,7 +9,6 @@ classes:
 ---
 ![Link text]({{ site.url }}{{ site.baseurl }}/assets/img/encapsulation-ruby-vs-go.jpg)
 ------------
-
 Some time ago I decided to give Go a go, being used to mostly dynamic/interpreted languages, mainly Ruby, I thought the transition was going to be hard but surprisingly, these 2 languages share a good amount of concepts. The most obvious one at least to me, was encapsulation.
 
 # Classes vs Struct + Pointer Receivers
