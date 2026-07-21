@@ -7,8 +7,7 @@ classes:
   - landing
   - dark-theme
 ---
-![Link text]({{ site.url }}{{ site.baseurl }}/assets/img/encapsulation-ruby-vs-go.jpg)
-------------
+![Encapsulation in Ruby vs Go](/assets/img/encapsulation-ruby-vs-go.jpg)
 Some time ago I decided to give Go a go, being used to mostly dynamic/interpreted languages, mainly Ruby, I thought the transition was going to be hard but surprisingly, these 2 languages share a good amount of concepts. The most obvious one at least to me, was encapsulation.
 
 # Classes vs Struct + Pointer Receivers
@@ -21,10 +20,10 @@ class Dog
 		@breed = breed
 		@name = name
 	end
-	
+
 	def is_a_good_dog
-	  puts "#{@name} is the best dog ever, congrats!"
-  end
+		puts "#{@name} is the best dog ever, congrats!"
+	end
 end
 
 dog = Dog.new("Noah", "Golden Retriever")
@@ -100,11 +99,10 @@ Doing globals in a Ruby class is quite simple too:
 
 ```ruby
 class Dog
-	# freeze avoids new object ids in main memory
-	BEST_DOG_BREEDS = ['Golden Retriever', 'Border Collie'].freeze 
+	BEST_DOG_BREEDS = ['Golden Retriever', 'Border Collie'].freeze
 	def self.description
-    puts "This is a class that describes a Dog."
-  end
+		puts "This is a class that describes a Dog."
+	end
 end
 ```
 
@@ -131,7 +129,7 @@ And as expected, there are some little cool idioms present in both languages tha
 ```ruby
 class Dog
 	attr_accessor :name, :breed
-	
+
 	def initialize(name, breed)
 		@name = name
 		@breed = breed
