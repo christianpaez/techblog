@@ -102,3 +102,7 @@ func blogTitleToImagePrefix(title string) string {
 	return strings.ReplaceAll(strings.ToLower(title), " ", "-")
 
 }
+
+func (downloader *Downloader) GetImageUrls() []string {
+	return downloader.imageUrls
+}

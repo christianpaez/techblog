@@ -1,57 +1,55 @@
 package jekyllmdpathhelper
 
 import (
-	"blog-to-md/config"
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 )
 
-// data definitions
-// string need config md path where files are located
-//
-// string|template need header string to insert when content does not have header image
-//
-// string need a blog with md content
-//
-// string[] for each blog need list of image paths for lookup and replace
+const assetBasePath = "{{ site.url }}{{ site.baseurl }}/assets/img"
 
 type JekyllMdPathHelper struct {
+	filePath    string
 	contentUrls []string
 }
 
-func NewJekyllMdPathHelper(contentUrls []string) *JekyllMdPathHelper {
+func NewJekyllMdPathHelper(filePath string, contentUrls []string) *JekyllMdPathHelper {
 	return &JekyllMdPathHelper{
+		filePath:    filePath,
 		contentUrls: contentUrls,
 	}
 }
 
-func (jekyllMdPathHelper *JekyllMdPathHelper) Normalize() error {
-	// stub this reads from md folder and calls helper
-	files, err := os.ReadDir(config.GetMdDir())
+func (h *JekyllMdPathHelper) Normalize() error {
+	content, err := os.ReadFile(h.filePath)
 	if err != nil {
 		return err
 	}
-	jekyllMdPathHelper.replacePaths(files)
-	fmt.Println(jekyllMdPathHelper.contentUrls)
+
+	slug := slugFromFileName(h.filePath)
+
+	updated := string(content)
+	for i, url := range h.contentUrls {
+		if url == "" {
+			continue // no main_image -> downloader puts empty string at index 0
+		}
+		localPath := fmt.Sprintf("%s/%s-0%d.png", assetBasePath, slug, i)
+		updated = strings.ReplaceAll(updated, url, localPath)
+	}
+
+	if err := os.WriteFile(h.filePath, []byte(updated), 0644); err != nil {
+		return err
+	}
 	return nil
 }
 
-func insertHeader() {} // stub takes image path and inserts header withmain image url
-
-func replaceImagePath() {} // stub replace path with new path
-
-func (jekyllmDPathHelper *JekyllMdPathHelper) replacePaths(paths []os.DirEntry) error {
-	for _, entry := range paths {
-		// this is wrong, i need to assume i know file path and the content urls will be used in constructor so i can do a single loop
-		if !entry.IsDir() {
-			filePath := fmt.Sprintf("%s/%s", config.GetMdDir(), entry.Name())
-			fileBytes, err := os.ReadFile(filePath)
-			if err != nil {
-				return err
-			}
-
-			fmt.Println(string(fileBytes))
-		}
+// slugFromFileName turns "2026-03-08-the-case-for-boring-tools.md" into "the-case-for-boring-tools"
+func slugFromFileName(filePath string) string {
+	base := strings.TrimSuffix(filepath.Base(filePath), ".md")
+	parts := strings.SplitN(base, "-", 4)
+	if len(parts) == 4 {
+		return parts[3]
 	}
-	return nil
+	return base
 }
