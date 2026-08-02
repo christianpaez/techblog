@@ -3,7 +3,6 @@ package main
 import (
 	"blog-to-md/config"
 	"blog-to-md/inputprompt"
-	jekyllmdpathhelper "blog-to-md/jekyllmdpath"
 	"blog-to-md/jsontomd"
 	"bufio"
 	"fmt"
@@ -28,16 +27,6 @@ func handleErr(err error) {
 }
 
 func main() {
-	config.SetMdDir("tmp/2026-05-03_194549.926728/mdFiles")
-	contentUrls := []string{"https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2a2o2l3seoor3fo7p1zs.png", "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3z5niwknk97ound3677f.png"}
-
-	jekyllmdpathhelper := jekyllmdpathhelper.NewJekyllMdPathHelper(contentUrls)
-	err := jekyllmdpathhelper.Normalize()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGTERM, syscall.SIGINT)
 	go func() {
@@ -176,4 +165,5 @@ func main() {
 	fmt.Println("Files Created!")
 
 	inputprompt.Command("Press enter to format files to JSON...", jsontomd.NewJSONToMdConverter(folderName).Start)
+
 }

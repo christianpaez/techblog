@@ -2,6 +2,7 @@ package jsontomd
 
 import (
 	"blog-to-md/imagedownloader"
+	jekyllmdpathhelper "blog-to-md/jekyllmdpath"
 	"blog-to-md/models"
 	"encoding/json"
 	"fmt"
@@ -46,6 +47,7 @@ func (c *JSONToMdConverter) Start() (bool, error) {
 			return false, err
 		}
 		fmt.Println("New file written: ", *newFilePath)
+		jekyllmdpathhelper.NewJekyllMdPathHelper(*newFilePath, imageDownloader.GetImageUrls()).Normalize()
 	}
 	return true, nil
 }
