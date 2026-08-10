@@ -76,10 +76,11 @@ func main() {
 	folderName := fmt.Sprintf("tmp/%s", time.Now().Format("2006-01-02_150405.000000"))
 	config.SetMdDir(folderName)
 
-	if _, err := os.Stat("tmp"); os.IsNotExist(err) {
-		if err := os.Mkdir("tmp", 0755); err != nil {
-			log.Fatal("Error creating tmp directory:", err)
-		}
+	if err := os.RemoveAll("tmp"); err != nil {
+		log.Fatal("Error cleaning tmp directory:", err)
+	}
+	if err := os.Mkdir("tmp", 0755); err != nil {
+		log.Fatal("Error creating tmp directory:", err)
 	}
 	if err := os.Mkdir(folderName, 0755); err != nil {
 		log.Fatal("Error creating tmp nested directory:", err)
