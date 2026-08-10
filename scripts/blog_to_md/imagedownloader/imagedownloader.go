@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
+	"path/filepath"
 	"regexp"
 	"slices"
 	"strings"
@@ -81,7 +83,7 @@ func (downloader *Downloader) downloadImage(index int) error {
 
 	defer response.Body.Close()
 
-	imageFilePath := fmt.Sprintf("%s/%s-0%d.png", config.ImageDir, imagePathPrefix, index)
+	imageFilePath := fmt.Sprintf("%s/%s-0%d.%s", config.ImageDir, imagePathPrefix, index, extensionFromURL(downloader.imageUrls[index]))
 	file, err := os.Create(imageFilePath)
 
 	if err != nil {
@@ -105,4 +107,24 @@ func blogTitleToImagePrefix(title string) string {
 
 func (downloader *Downloader) GetImageUrls() []string {
 	return downloader.imageUrls
+}
+
+func (downloader *Downloader) GetImageExtensions() []string {
+	extensions := make([]string, len(downloader.imageUrls))
+	for i, u := range downloader.imageUrls {
+		extensions[i] = extensionFromURL(u)
+	}
+	return extensions
+}
+
+func extensionFromURL(rawURL string) string {
+	parsed, err := url.Parse(rawURL)
+	if err != nil {
+		return "png"
+	}
+	ext := strings.ToLower(filepath.Ext(parsed.Path))
+	if ext == "" {
+		return "png"
+	}
+	return strings.TrimPrefix(ext, ".")
 }

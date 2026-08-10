@@ -3,21 +3,24 @@ package jekyllmdpathhelper
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
 const assetBasePath = "{{ site.url }}{{ site.baseurl }}/assets/img"
 
 type JekyllMdPathHelper struct {
-	filePath    string
-	contentUrls []string
+	filePath          string
+	slug              string
+	contentUrls       []string
+	contentExtensions []string
 }
 
-func NewJekyllMdPathHelper(filePath string, contentUrls []string) *JekyllMdPathHelper {
+func NewJekyllMdPathHelper(filePath string, slug string, contentUrls []string, contentExtensions []string) *JekyllMdPathHelper {
 	return &JekyllMdPathHelper{
-		filePath:    filePath,
-		contentUrls: contentUrls,
+		filePath:          filePath,
+		slug:              slug,
+		contentUrls:       contentUrls,
+		contentExtensions: contentExtensions,
 	}
 }
 
@@ -27,14 +30,12 @@ func (h *JekyllMdPathHelper) Normalize() error {
 		return err
 	}
 
-	slug := slugFromFileName(h.filePath)
-
 	updated := string(content)
 	for i, url := range h.contentUrls {
 		if url == "" {
 			continue // no main_image -> downloader puts empty string at index 0
 		}
-		localPath := fmt.Sprintf("%s/%s-0%d.png", assetBasePath, slug, i)
+		localPath := fmt.Sprintf("%s/%s-0%d.%s", assetBasePath, h.slug, i, h.contentExtensions[i])
 		updated = strings.ReplaceAll(updated, url, localPath)
 	}
 
@@ -42,14 +43,4 @@ func (h *JekyllMdPathHelper) Normalize() error {
 		return err
 	}
 	return nil
-}
-
-// slugFromFileName turns "2026-03-08-the-case-for-boring-tools.md" into "the-case-for-boring-tools"
-func slugFromFileName(filePath string) string {
-	base := strings.TrimSuffix(filepath.Base(filePath), ".md")
-	parts := strings.SplitN(base, "-", 4)
-	if len(parts) == 4 {
-		return parts[3]
-	}
-	return base
 }

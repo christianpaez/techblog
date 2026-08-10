@@ -42,12 +42,12 @@ func (c *JSONToMdConverter) Start() (bool, error) {
 		if _, err := imageDownloader.DownloadImages(); err != nil {
 			return false, err
 		}
-		newFilePath, err := writeMdFile(c.jsonFolderName, jsonContent)
+		newFilePath, slug, err := writeMdFile(c.jsonFolderName, jsonContent)
 		if err != nil {
 			return false, err
 		}
 		fmt.Println("New file written: ", *newFilePath)
-		jekyllmdpathhelper.NewJekyllMdPathHelper(*newFilePath, imageDownloader.GetImageUrls()).Normalize()
+		jekyllmdpathhelper.NewJekyllMdPathHelper(*newFilePath, slug, imageDownloader.GetImageUrls(), imageDownloader.GetImageExtensions()).Normalize()
 	}
 	return true, nil
 }
@@ -88,24 +88,29 @@ func fileToJSON(path string) (models.Blog, error) {
 	return blog, nil
 }
 
-func writeMdFile(folderPath string, jsonContent models.Blog) (*string, error) {
+func writeMdFile(folderPath string, jsonContent models.Blog) (*string, string, error) {
 	fileBytes, err := os.ReadFile("jekyll_example.md")
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	date := strings.Split(jsonContent.UpdatedAt, " ")[0]
-	filename := fmt.Sprintf("%s-%s", date, strings.ReplaceAll(strings.ToLower(jsonContent.Title), " ", "-"))
+	slug := strings.ReplaceAll(strings.ToLower(jsonContent.Title), " ", "-")
+	filename := fmt.Sprintf("%s-%s", date, slug)
 	newFilePath := fmt.Sprintf("%s/mdFiles/%s.md", folderPath, filename)
 	file, err := os.Create(newFilePath)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	defer file.Close()
+
+	if jsonContent.MainImage != "" && !strings.Contains(jsonContent.Content, jsonContent.MainImage) {
+		jsonContent.Content = fmt.Sprintf("![%s](%s)\n------------\n%s", jsonContent.Title, jsonContent.MainImage, jsonContent.Content)
+	}
 
 	t := template.Must(template.New("template").Parse(string(fileBytes)))
 	err = t.Execute(file, jsonContent)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
-	return &newFilePath, nil
+	return &newFilePath, slug, nil
 }
