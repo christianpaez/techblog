@@ -46,7 +46,7 @@ func main() {
 
 	scanner := bufio.NewScanner(strings.NewReader(string(credentials)))
 
-	var currentUserToken, rememberUserToken string
+	var currentUserToken, rememberUserToken, foremSessionToken string
 	for scanner.Scan() {
 		line := scanner.Text()
 		if strings.HasPrefix(line, "current_user:") {
@@ -56,13 +56,15 @@ func main() {
 		if strings.HasPrefix(line, "remember_user_token:") {
 			rememberUserToken = strings.TrimPrefix(line, "remember_user_token:")
 		}
+		if strings.HasPrefix(line, "_Devto_Forem_Session:") {
+			foremSessionToken = strings.TrimPrefix(line, "_Devto_Forem_Session:")
+		}
 	}
-	if currentUserToken == "" || rememberUserToken == "" {
+	if currentUserToken == "" || rememberUserToken == "" || foremSessionToken == "" {
 		log.Fatal("Credentials missing. Check .credentials.txt format.")
 	}
 
 	contents, err := os.ReadFile("index_example.html")
-
 	if err != nil {
 		log.Printf("Error reading file: %v", err)
 	}
@@ -70,7 +72,7 @@ func main() {
 	// this got to be another module
 	fmt.Printf("File contents: %s", contents)
 
-	validHrefRegex := regexp.MustCompile("href=\"([^\"]+)\"")
+	validHrefRegex := regexp.MustCompile(`href="([^"]+/edit)"`)
 	matches := validHrefRegex.FindAllStringSubmatch(string(contents), -1)
 	fileNumber := 1
 	folderName := fmt.Sprintf("tmp/%s", time.Now().Format("2006-01-02_150405.000000"))
@@ -79,14 +81,15 @@ func main() {
 	if err := os.RemoveAll("tmp"); err != nil {
 		log.Fatal("Error cleaning tmp directory:", err)
 	}
-	if err := os.Mkdir("tmp", 0755); err != nil {
+	if err := os.Mkdir("tmp", 0o755); err != nil {
 		log.Fatal("Error creating tmp directory:", err)
 	}
-	if err := os.Mkdir(folderName, 0755); err != nil {
+	if err := os.Mkdir(folderName, 0o755); err != nil {
 		log.Fatal("Error creating tmp nested directory:", err)
 	}
 	for _, value := range matches {
-		s := []string{"https://dev.to", value[1], "/edit"}
+
+		s := []string{"https://dev.to", value[1]}
 		url := fmt.Sprintf(strings.Join(s, ""))
 		fmt.Printf("Visiting blog page: %s\n", url)
 
@@ -104,15 +107,19 @@ func main() {
 			Quoted: false,
 		}
 
+		foremSessionCookie := &http.Cookie{
+			Name:   "_Devto_Forem_Session",
+			Value:  foremSessionToken,
+			Quoted: false,
+		}
 		request, err := http.NewRequest("GET", url, nil)
-
 		if err != nil {
-
 			log.Fatal("Error creating request: ", err)
 		}
 
 		request.AddCookie(currentUserCookie)
 		request.AddCookie(rememberMeCookie)
+		request.AddCookie(foremSessionCookie)
 		request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
 		request.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
@@ -120,7 +127,6 @@ func main() {
 		request.Header.Set("Connection", "keep-alive")
 		request.Header.Set("Upgrade-Insecure-Requests", "1")
 		response, err := client.Do(request)
-
 		if err != nil {
 			panic(err)
 		}
@@ -130,13 +136,11 @@ func main() {
 		fmt.Printf("%v\n", response.Status)
 
 		document, err := goquery.NewDocumentFromReader(response.Body)
-
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		document.Find("#main-content").Each(func(i int, selection *goquery.Selection) {
-
 			attribute, exists := selection.Attr("data-article")
 
 			if exists {
@@ -145,7 +149,6 @@ func main() {
 				f, err := os.Create(path)
 				if err != nil {
 					log.Fatal("Error creating file: ", err)
-
 				}
 				defer f.Close()
 				w := bufio.NewWriter(f)
@@ -166,5 +169,4 @@ func main() {
 	fmt.Println("Files Created!")
 
 	inputprompt.Command("Press enter to format files to JSON...", jsontomd.NewJSONToMdConverter(folderName).Start)
-
 }

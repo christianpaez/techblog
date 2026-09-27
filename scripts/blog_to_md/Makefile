@@ -15,8 +15,8 @@ run:
 	go run .
 
 publish:
-	cp -v $(MD_FILES) $(POSTS_DIR)/
-	cp -v $(IMG_FILES) $(IMG_DIR)/
+	find tmp -path '*/mdFiles/*.md' -exec cp -v {} $(POSTS_DIR)/ \;
+	find tmp/images -type f -exec cp -v {} $(IMG_DIR)/ \;
 
 clean:
 	rm -rf tmp
