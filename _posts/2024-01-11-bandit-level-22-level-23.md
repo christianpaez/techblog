@@ -7,8 +7,6 @@ categories:
 
 ![Bandit Level 22 Level 23]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-22-level-23-00.png)
 ------------
-## Introduction
-
 In this level, we'll navigate through the uses of cron jobs and bash scripting to find hidden files on a linux system.
 
 ### Previous Flag

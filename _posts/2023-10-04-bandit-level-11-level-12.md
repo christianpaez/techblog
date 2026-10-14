@@ -7,8 +7,6 @@ categories: bandit, ctf, overthewire, writeup
 
 ![Bandit Level 11 Level 12]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-11-level-12-00.png)
 ------------
-### Introduction
-
 In Level 11 of the Bandit wargame, we're faced with a cryptographic challenge that requires some clever manipulation. Let's jump right into the steps to crack it.
 
 ### **Steps.**

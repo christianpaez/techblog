@@ -7,8 +7,6 @@ categories: ctf, bandit, overthewire, writeup
 
 ![Bandit Level 23 Level 24]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-23-level-24-00.png)
 ------------
-## Introduction
-
 Welcome back, in this level we will learn some basics of privilege escalation by abusing cron jobs.
 
 ### Previous flag

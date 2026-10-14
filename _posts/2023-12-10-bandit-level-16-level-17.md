@@ -7,8 +7,6 @@ categories: ctf, writeup, overthewire, bandit
 
 ![Bandit Level 16 Level 17]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-16-level-17-00.png)
 ------------
-## Introduction
-
 In this level of the OverTheWire Bandit challenges, we'll learn how to scan for open ports and establish an SSL connection to retrieve the flag for the next level.
 
 ## Previous Flag

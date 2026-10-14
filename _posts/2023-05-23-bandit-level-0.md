@@ -7,8 +7,6 @@ categories: writeup, ctf, overthewire, bandit
 
 ![Bandit Level 0]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-0-00.png)
 ------------
-### Introduction
-
 Bandit0 is the first level of the OverTheWire Bandit wargame. In this level, we will learn how to use SSH to connect to the remote server and gain access to the password for the next level.
 
 ### Steps

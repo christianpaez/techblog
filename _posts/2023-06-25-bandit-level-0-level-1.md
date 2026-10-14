@@ -7,8 +7,6 @@ categories: writeup, overthewire, bandit, ctf
 
 ![Bandit Level 0 Level 1]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-0-level-1-00.png)
 ------------
-### Introduction
-
 Bandit Level 0 → Level 1 is the second level of the OverTheWire Bandit wargame. In this level, we will learn how to use the "find" command to search for files and how to use the "cat" command to read the contents of a file. By completing this level, we will gain access to the password for the next level.
 
 ### Steps

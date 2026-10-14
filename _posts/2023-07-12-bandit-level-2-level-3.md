@@ -7,8 +7,6 @@ categories: writeup, overthewire, ctf, bandit
 
 ![Bandit Level 2 Level 3]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-2-level-3-00.png)
 ------------
-### Introduction
-
 Bandit3 is the fourth level of the OverTheWire Bandit wargame. In this level, we will learn how to handle filenames with spaces in them and how to read the contents of a file with a space in its name. By completing this level, we will gain access to the password for the next level.
 
 ### Steps

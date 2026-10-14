@@ -7,8 +7,6 @@ categories: ctf, writeup, overthewire, bandit
 
 ![Bandit Level 19 Level 20]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-19-level-20-00.png)
 ------------
-## Introduction
-
 Greetings, Welcome back to the OverTheWire Bandit challenges. In this level, we are presented with a custom binary that has to be exploited to get secret information.
 
 ## Previous Flag

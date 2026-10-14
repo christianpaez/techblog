@@ -7,8 +7,6 @@ categories: ctf, writeup, overthewire, bandit
 
 ![Bandit Level 17 Level 18]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-17-level-18-00.png)
 ------------
-## Introduction
-
 Greetings, Welcome back to the OverTheWire Bandit challenges. In this level, we're learning more about secure shell (SSH) and cryptographic keys. 
 
 ## Previous Flag
