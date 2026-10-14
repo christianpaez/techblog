@@ -4,11 +4,8 @@ title: "Bandit Level 14 Level 15"
 date: 2023-11-16 19:33:59 -5900
 categories: ctf, writeup, overthewire, bandit
 ---
-
 ![Bandit Level 14 Level 15]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-14-level-15-00.png)
 ------------
-### **Introduction**
-
 Greetings, folks! We're back in the Bandit wargame, in this level where we'll deal with Secure Shell (SSH) and privilege escalation.
 
 ### Login via SSH

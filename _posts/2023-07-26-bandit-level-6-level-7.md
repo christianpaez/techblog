@@ -7,8 +7,6 @@ categories: bandit, ctf, overthewire, writeup
 
 ![Bandit Level 6 Level 7]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-6-level-7-00.png)
 ------------
-### Introduction
-
 Bandit 7 is the eigth level of the OverTheWire Bandit wargame. In this level, we will learn how to search for files by owner and size.
 
 ### Steps

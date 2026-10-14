@@ -7,8 +7,6 @@ categories: writeup, ctf, overthewire, bandit
 
 ![Bandit Level 5 Level 6]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-5-level-6-00.png)
 ------------
-### Introduction
-
 Bandit 6 is the seventh level of the OverTheWire Bandit wargame, we are tasked with finding a file within a directory hierarchy and extracting a password from that file.
 
 ### Steps

@@ -7,8 +7,6 @@ categories: bash, linux, git, gists
 
 ![Unleashing Git Aliases: A Guide to Boosting Linux Productivity]({{ site.url }}{{ site.baseurl }}/assets/img/unleashing-git-aliases:-a-guide-to-boosting-linux-productivity-00.jpg)
 ------------
-## Introduction
-
 The command line is a powerful interface, and for Linux enthusiasts, mastering it can lead to increased productivity and a deeper understanding of the operating system. One tool that stands out in this journey is the use of aliases, and when it comes to version control with Git, they become even more valuable.
 
 ## Why Use Aliases?

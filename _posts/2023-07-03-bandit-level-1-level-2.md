@@ -7,8 +7,6 @@ categories: writeup, overthewire, bandit, ctf
 
 ![Bandit Level 1 Level 2]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-1-level-2-00.png)
 ------------
-### Introduction
-
 Bandit2 is the third level of the OverTheWire Bandit wargame. In this level, we will learn how to handle special characters in filenames and how to read the contents of a file that has a hyphen in its name. By completing this level, we will gain access to the password for the next level.
 
 ### Steps

@@ -4,11 +4,8 @@ title: "Bandit Level 18 Level 19"
 date: 2023-12-17 03:42:09 -0900
 categories: ctf, writeup, overthewire, bandit
 ---
-
 ![Bandit Level 18 Level 19]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-18-level-19-00.png)
 ------------
-# Introduction
-
  In this level, we'll learn about SSH connections, command execution, and file retrieval.
 
 Before we dive into this level, let's review the flag we obtained in the previous challenge:

@@ -7,8 +7,6 @@ categories: writeup, ctf, overthewire, bandit
 
 ![Bandit Level 3 Level 4]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-3-level-4-00.png)
 ------------
-### Introduction
-
 Bandit4 is the fifth level of the OverTheWire Bandit wargame. In this level, we will learn how to search for files that start with a dot and how to read the contents of a hidden file. By completing this level, we will gain access to the password for the next level.
 
 ### Steps

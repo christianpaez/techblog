@@ -4,10 +4,8 @@ title: "HackerRank SQL Preparation: Weather Observation Station 3(MySQL)"
 date: 2024-08-27 02:11:49 -4900
 categories: sql, hackerrank, writeups, mysql
 ---
-
 ![HackerRank SQL Preparation: Weather Observation Station 3(MySQL)]({{ site.url }}{{ site.baseurl }}/assets/img/hackerrank-sql-preparation:-weather-observation-station-3(mysql)-00.png)
 ------------
-
 **Problem Statement:**
 Query a list of CITY names from **STATION** for cities that have an even ID number. Print the results in any order, but exclude duplicates from the answer.
 

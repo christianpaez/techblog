@@ -4,11 +4,8 @@ title: "Bandit Level 13 Level 14"
 date: 2023-10-26 02:59:16 -1600
 categories: ctf, writeup, overthewire, bandit
 ---
-
 ![Bandit Level 13 Level 14]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-13-level-14-00.png)
 ------------
-### Introduction
-
 Greetings, We're back with another step in the Bandit wargame journey. Level 13 introduces us to Secure Shell (SSH) and the concept of privilege escalation. Let's dive right into the details with no extra flair.
 
 ### **Starting Point**

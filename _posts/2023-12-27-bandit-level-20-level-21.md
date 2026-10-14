@@ -7,8 +7,6 @@ categories: ctf, writeup, overthewire, bandit
 
 ![Bandit Level 20 Level 21]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-20-level-21-00.png)
 ------------
-## Introduction
-
 Welcome back tothe OverTheWire Bandit challenges. In this level, we encounter a scenario involving networking and data transfer.
 
 ## Previous Flag

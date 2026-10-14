@@ -7,8 +7,6 @@ categories: bandit, ctf, overthewire, writeup
 
 ![Bandit Level 12 Level 13]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-12-level-13-00.png)
 ------------
-### Introduction
-
 Greetings, As we step into **Level 12** of the Bandit wargame, we're faced with a unique challenge involving data manipulation and repeated compression. Get ready to roll up your sleeves and dive into the intricate world of command-line operations.
 
 ### **Steps**

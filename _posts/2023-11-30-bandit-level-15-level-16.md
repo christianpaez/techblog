@@ -7,8 +7,6 @@ categories: ctf, writeup, overthewire, bandit
 
 ![Bandit Level 15 Level 16]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-15-level-16-00.png)
 ------------
-## Introduction
-
 Welcome to another level of the OverTheWire Bandit challenges! In this level, we will continue our journey to enhance our Linux and ethical hacking skills.
 
 ## Previous Flag

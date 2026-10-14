@@ -7,8 +7,6 @@ categories: bandit, ctf, overthewire, writeup
 
 ![Bandit Level 9 Level 10]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-9-level-10-00.png)
 ------------
-### Introduction
-
 Bandit10 is the eleventh level in the OverTheWire Bandit wargame. In this level, we are given a file named "data.txt" and we are required to find a string of text that occurs only once in the file and contains only letters and spaces.
 
 ### Steps

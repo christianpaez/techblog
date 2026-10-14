@@ -7,8 +7,6 @@ categories: bandit, ctf, overthewire, writeup
 
 ![Bandit Level 7 Level 8]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-7-level-8-00.png)
 ------------
-### Introduction
-
 Bandit level 8 is all about finding a specific word in a file and extracting its value. In this level, we are given a file called `data.txt` and are tasked with finding the value of a specific word.
 
 ### Steps

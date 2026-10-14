@@ -7,8 +7,6 @@ categories: bandit, ctf, overthewire, writeup
 
 ![Bandit Level 8 Level 9]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-8-level-9-00.png)
 ------------
-### Introduction
-
 Bandit9 is the tenth level of the OverTheWire Bandit wargame. In this level, we are given a file called `data.txt` and we have to find the line that occurs only once in the file.
 
 ### Steps

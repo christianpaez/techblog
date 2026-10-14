@@ -4,10 +4,8 @@ title: "Why are Software bugs named bugs?"
 date: 2022-08-03 22:07:23 -2300
 categories: software, bugs, errors, history
 ---
-
-![Why are Software bugs named bugs?]({{ site.url }}{{ site.baseurl }}/assets/img/why-are-software-bugs-named-bugs?-00.jpg)
+![Why are Software bugs named bugs?]({{ site.url }}{{ site.baseurl }}/assets/img/why-are-software-bugs-named-bugs-00.jpg)
 ------------
-
 The use of the term "bug" to describe problems with software is now common and is used in both technical and non-technical contexts. What are the origins of the term?, Does it refer to a real insect?, Let's check some historical facts.
 
 Thomas Edison
@@ -26,7 +24,7 @@ Grace Hopper
 In 1946, when Hopper was working on the electromechanical computer **`Harvard Mark II`**, operators traced an error to a moth rapped in a relay, coining the term "*bug".* This bug was carefully removed and taped to the log book. This log book, complete with attached moth, is part of the collection of the Smithsonian National Museum of American History (See image below).
 
 
-![Original page of the Mark II log book.]({{ site.url }}{{ site.baseurl }}/assets/img/why-are-software-bugs-named-bugs?-01.jpg)
+![Original page of the Mark II log book.]({{ site.url }}{{ site.baseurl }}/assets/img/why-are-software-bugs-named-bugs-01.jpg)
 
 
 **John McCarthy**

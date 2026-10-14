@@ -4,10 +4,8 @@ title: "HackerRank SQL Preparation: Japanese Cities' Names(MySQL)"
 date: 2024-06-09 18:44:35 -3500
 categories: sql, mysql, writeups, hackerrank
 ---
-
 ![HackerRank SQL Preparation: Japanese Cities' Names(MySQL)]({{ site.url }}{{ site.baseurl }}/assets/img/hackerrank-sql-preparation:-japanese-cities'-names(mysql)-00.png)
 ------------
-
 **Problem Statement:**
 Query the names of all Japanese cities in the **CITY** table. The `COUNTRYCODE` for Japan is `JPN`.
 

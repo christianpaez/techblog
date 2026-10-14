@@ -7,8 +7,6 @@ categories: writeup, ctf, overthewire, bandit
 
 ![Bandit Level 4 Level 5]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-4-level-5-00.png)
 ------------
-### Introduction
-
 Bandit5 is the sixth level of the OverTheWire Bandit wargame. In this level, we will learn how to use the "file" command to determine the file type of a file and how to read the contents of a specific file. By completing this level, we will gain access to the password for the next level.
 
 ### Steps

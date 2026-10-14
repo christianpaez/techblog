@@ -7,8 +7,6 @@ categories: ctf, writeup, overthewire, bandit
 
 ![Bandit Level 21 Level 22]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-21-level-22-00.png)
 ------------
-## Introduction
-
 Welcome back, fearless hacker, to the Bandit challenges! In this level, we'll learn to exploit cron jobs and bashscript files.
 
 ## Previous Flag

@@ -4,12 +4,8 @@ title: "Simplifying PATH Management with Bash"
 date: 2024-05-07 03:40:27 -2700
 categories: bash, gists, linux
 ---
-
 ![Simplifying PATH Management with Bash]({{ site.url }}{{ site.baseurl }}/assets/img/simplifying-path-management-with-bash-00.png)
-------------
-
 ---
-
 In the world of command-line, every keystroke counts. One essential aspect of this efficiency is managing your system's PATH variable. A well-managed PATH ensures easy access to frequently used scripts and executables. In this blog post, we introduce a simple Bash script that streamlines the process of adding directories to your PATH, along with instructions on how to use it with `curl`.
 
 **Benefits of Writing Your Own Scripts and Adding Them to PATH:**

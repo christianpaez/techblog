@@ -7,8 +7,6 @@ categories: bandit, ctf, overthewire, writeup
 
 ![Bandit Level 10 Level 11]({{ site.url }}{{ site.baseurl }}/assets/img/bandit-level-10-level-11-00.png)
 ------------
-### Introduction
-
 Bandit11 is the twelfth level of the OverTheWire Bandit wargame. In this level, we will learn how to decode base64 encoded data to retrieve the password for the next level.
 
 ### Steps
