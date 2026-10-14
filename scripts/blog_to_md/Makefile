@@ -8,9 +8,6 @@ IMG_FILES := $(wildcard tmp/images/*)
 
 .PHONY: run publish
 
-clean_dev_to_html:
-	go run htmlelementremover/main.go goquery_test.html
-
 run:
 	go run .
 
